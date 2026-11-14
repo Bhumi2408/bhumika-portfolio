@@ -1,79 +1,64 @@
 import Reveal from "@/components/Reveal";
 import TiltCard from "@/components/TiltCard";
 import ScrollLine from "@/components/ScrollLine";
-import { Container, PageHeader, Serif, CTA } from "@/components/ui";
-import { Branch } from "@/components/Icons";
-import { experience, milestones, profile } from "@/data/portfolio";
+import JsonLd from "@/components/JsonLd";
+import { Container, PageHeader, SectionHead, Serif, CTA } from "@/components/ui";
+import { Pin, Clock, Cap, Trophy, Check } from "@/components/Icons";
+import { experience, milestones } from "@/data/portfolio";
+import { pageMeta, breadcrumbSchema } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMeta({
   title: "Experience",
-  description: "Work experience of Bhumika Garg — Full Stack Developer at Bharat Bizmart (Cybertricks Media Group) and Web Developer Intern at Kreativan Technologies.",
-};
+  description:
+    "Work experience of Bhumika Garg — Full Stack Developer at Bharat Bizmart (Cybertricks Media Group) building MERN & Next.js e-commerce platforms, and Web Developer Intern at Kreativan Technologies.",
+  path: "/experience",
+  keywords: ["Bhumika Garg experience", "Full Stack Developer Bharat Bizmart", "Cybertricks Media developer"],
+});
 
-// chronological (newest first) mix of jobs and milestones
-const log = [
-  { kind: "job", ...experience[0] },
-  { kind: "note", ...milestones[0] },
-  { kind: "job", ...experience[1] },
-  { kind: "note", ...milestones[1] },
-  { kind: "note", ...milestones[2] },
-  { kind: "note", ...milestones[3] },
-];
+const milestoneIcon = { education: Cap, achievements: Trophy };
 
-const typeColor = {
-  feat: "text-[var(--syn-key)]",
-  release: "text-lime",
-  award: "text-accent-3",
-  init: "text-accent-2",
-};
-
-function JobCommit({ c, i }) {
+function Job({ job, i }) {
   return (
-    <Reveal delay={i * 60} className="relative pl-12 sm:pl-16">
-      <span className="absolute left-[11px] top-7 grid h-6 w-6 -translate-x-1/2 place-items-center rounded-full border-2 border-accent bg-bg sm:left-[19px]">
-        <span className={`h-2.5 w-2.5 rounded-full ${c.current ? "animate-pulse bg-accent" : "bg-accent/60"}`} />
+    <Reveal delay={i * 80} className="relative pl-12 sm:pl-16">
+      {/* dot on the timeline */}
+      <span className="absolute left-[11px] top-9 grid h-6 w-6 -translate-x-1/2 place-items-center rounded-full border-2 border-accent bg-bg sm:left-[19px]">
+        <span className={`h-2.5 w-2.5 rounded-full ${job.current ? "animate-pulse bg-accent" : "bg-accent/60"}`} />
       </span>
-      <TiltCard className="p-6 sm:p-8">
-        <div className="relative font-mono text-[13px]">
-          <p className="flex flex-wrap items-center gap-2">
-            <span className="text-[var(--syn-num)]">commit {c.hash}</span>
-            {c.refs.map((r) => (
-              <span
-                key={r}
-                className={`rounded-md px-2 py-0.5 text-[11px] ${
-                  r.startsWith("HEAD") ? "bg-[var(--syn-key)]/15 text-[var(--syn-key)]" : "bg-lime/15 text-lime"
-                }`}
-              >
-                {r}
-              </span>
-            ))}
-          </p>
-          <p className="mt-2 text-faint">
-            Author: <span className="text-muted">{profile.name}</span>
-          </p>
-          <p className="text-faint">
-            Date:&nbsp;&nbsp; <span className="text-muted">{c.period}</span> · <span className="text-muted">{c.location}</span>
-          </p>
+
+      <TiltCard className="p-6 sm:p-9">
+        <div className="relative flex flex-wrap items-center gap-2 text-sm">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-fg/[0.03] px-3 py-1 text-muted">
+            <Clock width={14} height={14} /> {job.period}
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-fg/[0.03] px-3 py-1 text-muted">
+            <Pin width={14} height={14} /> {job.location}
+          </span>
+          {job.current && (
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-lime/15 px-3 py-1 font-medium text-lime">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-lime" /> Current role
+            </span>
+          )}
         </div>
 
-        <h2 className="relative mt-6 font-display text-[clamp(1.6rem,4vw,2.4rem)] font-semibold leading-tight tracking-tight text-fg">
-          <span className="font-mono text-base font-normal text-lime">feat: </span>
-          {c.role}
-        </h2>
-        <p className="relative mt-1 text-lg text-muted">@ {c.company}</p>
+        <h2 className="relative mt-6 font-display text-[clamp(1.7rem,4vw,2.6rem)] font-semibold leading-tight tracking-tight text-fg">{job.role}</h2>
+        <p className="relative mt-1 text-lg text-accent">{job.company}</p>
 
-        <ul className="relative mt-6 space-y-3">
-          {c.points.map((pt, k) => (
+        <p className="relative mb-4 mt-8 font-mono text-xs uppercase tracking-[0.2em] text-faint">What I did</p>
+        <ul className="relative space-y-3">
+          {job.points.map((pt, k) => (
             <li key={k} className="flex gap-3 leading-relaxed text-muted">
-              <span className="mt-1 font-mono text-sm text-lime">+</span>
+              <span className="mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent/12 text-accent">
+                <Check width={12} height={12} />
+              </span>
               <span>{pt}</span>
             </li>
           ))}
         </ul>
 
-        <div className="relative mt-6 flex flex-wrap gap-1.5">
-          {c.tags.map((t) => (
-            <span key={t} className="rounded-full border border-line bg-fg/[0.03] px-2.5 py-1 font-mono text-xs text-muted">
+        <p className="relative mb-3 mt-8 font-mono text-xs uppercase tracking-[0.2em] text-faint">Skills used</p>
+        <div className="relative flex flex-wrap gap-1.5">
+          {job.tags.map((t) => (
+            <span key={t} className="rounded-full border border-line bg-fg/[0.03] px-3 py-1 text-sm text-muted">
               {t}
             </span>
           ))}
@@ -83,49 +68,72 @@ function JobCommit({ c, i }) {
   );
 }
 
-function NoteCommit({ c, i }) {
-  return (
-    <Reveal delay={i * 60} className="relative pl-12 sm:pl-16">
-      <span className="absolute left-[11px] top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-line bg-surface sm:left-[19px]" />
-      <div className="group flex flex-wrap items-center gap-x-4 gap-y-1 rounded-2xl border border-transparent px-4 py-3 font-mono text-[13px] transition hover:border-line hover:bg-surface">
-        <span className="text-[var(--syn-num)]">{c.hash}</span>
-        <span className="flex items-center gap-1 rounded-md bg-fg/[0.05] px-2 py-0.5 text-[11px] text-faint">
-          <Branch width={12} height={12} /> {c.branch}
-        </span>
-        <span className="text-faint">{c.date}</span>
-        <span className="basis-full font-sans text-[15px] text-fg sm:basis-auto">
-          <span className={`font-mono text-[13px] ${typeColor[c.type]}`}>{c.type}: </span>
-          {c.text}
-        </span>
-      </div>
-    </Reveal>
-  );
-}
-
 export default function Experience() {
+  // oldest → newest reads naturally as a story
+  const journey = [...milestones].reverse();
+
   return (
     <>
-      <PageHeader path="/experience" index="02" title={["My ", <Serif key="s">git log</Serif>, " so far."]} bg="LOG">
-        Every role, release and milestone — committed to main. Scroll through the history of how I got here.
+      <JsonLd data={breadcrumbSchema([{ name: "Experience", path: "/experience" }])} />
+      <PageHeader path="/experience" index="02" title={["My work ", <Serif key="s">experience.</Serif>]} bg="WORK">
+        Where I&apos;ve worked, what I built there, and the milestones that brought me here.
       </PageHeader>
 
-      <section className="pb-12">
+      {/* quick summary */}
+      <section className="pb-10">
         <Container>
-          <Reveal>
-            <p className="mb-10 inline-flex max-w-full items-center gap-2 overflow-x-auto rounded-xl border border-line bg-surface px-4 py-3 font-mono text-sm">
-              <span className="text-lime">$</span>
-              <span className="whitespace-nowrap text-fg">git log --graph --decorate career</span>
-              <span className="h-4 w-[7px] shrink-0 animate-blink bg-accent" />
-            </p>
-          </Reveal>
+          <div className="grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-line bg-line md:grid-cols-4">
+            {[
+              ["1.5+ yrs", "Hands-on experience"],
+              ["2", "Companies"],
+              ["4", "E-commerce stores shipped"],
+              ["10+", "Live websites"],
+            ].map(([v, l], i) => (
+              <Reveal key={l} delay={i * 70} className="bg-bg p-6 sm:p-8">
+                <p className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
+                  <span className="text-gradient">{v}</span>
+                </p>
+                <p className="mt-1 text-sm text-muted">{l}</p>
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </section>
 
-          <div className="relative space-y-8">
+      {/* jobs */}
+      <section className="py-12">
+        <Container>
+          <SectionHead index="01" eyebrow="Work" title={["Where I've ", <Serif key="s">worked.</Serif>]} />
+          <div className="relative space-y-10">
             <ScrollLine className="left-[11px] sm:left-[19px]" />
-            {log.map((c, i) => (c.kind === "job" ? <JobCommit key={c.hash} c={c} i={i} /> : <NoteCommit key={c.hash} c={c} i={i} />))}
-            <Reveal className="relative pl-12 font-mono text-sm text-faint sm:pl-16">
-              <span className="absolute left-[11px] top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-line sm:left-[19px]" />
-              (root) — and the next commit could be with your team 🚀
-            </Reveal>
+            {experience.map((job, i) => (
+              <Job key={job.company} job={job} i={i} />
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* milestones */}
+      <section className="py-20">
+        <Container>
+          <SectionHead index="02" eyebrow="Milestones" title={["Education & ", <Serif key="s">milestones.</Serif>]} />
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {journey.map((m, i) => {
+              const Icon = milestoneIcon[m.branch] || Cap;
+              return (
+                <Reveal key={m.text} delay={i * 90}>
+                  <TiltCard className="flex h-full flex-col p-6">
+                    <div className="relative flex items-center justify-between">
+                      <span className="grid h-11 w-11 place-items-center rounded-2xl bg-accent/12 text-accent">
+                        <Icon />
+                      </span>
+                      <span className="font-display text-2xl font-semibold text-faint">{m.date}</span>
+                    </div>
+                    <p className="relative mt-6 leading-relaxed text-fg">{m.text}</p>
+                  </TiltCard>
+                </Reveal>
+              );
+            })}
           </div>
         </Container>
       </section>

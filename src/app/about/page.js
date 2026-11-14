@@ -4,11 +4,16 @@ import TiltCard from "@/components/TiltCard";
 import { Container, PageHeader, SectionHead, Serif, CTA, Button } from "@/components/ui";
 import { Cap, Trophy, Badge, Download, ArrowRight } from "@/components/Icons";
 import { profile, education, achievements, certifications, services } from "@/data/portfolio";
+import JsonLd from "@/components/JsonLd";
+import { pageMeta, breadcrumbSchema } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMeta({
   title: "About",
-  description: "About Bhumika Garg — Full Stack Developer (MERN · Next.js) from Delhi, B.Tech Silver Medalist and M.Tech student.",
-};
+  description:
+    "About Bhumika Garg — Full Stack Developer (MERN · Next.js) from Delhi. B.Tech Silver Medalist (CGPA 9.62), M.Tech student, building e-commerce platforms, APIs and SEO-friendly websites.",
+  path: "/about",
+  keywords: ["About Bhumika Garg", "Bhumika Garg Maharaja Agrasen University", "Silver Medalist B.Tech developer"],
+});
 
 const facts = [
   ["name", profile.name],
@@ -23,6 +28,7 @@ const facts = [
 export default function About() {
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: "About", path: "/about" }])} />
       <PageHeader path="/about" index="01" title={["The developer ", <Serif key="s">behind</Serif>, " the code."]} bg="ABOUT">
         Silver-medal engineer turned full-stack developer — I care about clean APIs, fast pages and products that real customers use every day.
       </PageHeader>
@@ -40,12 +46,6 @@ export default function About() {
                   <p className="font-mono text-sm text-white/70">{profile.role} · {profile.location}</p>
                 </div>
               </div>
-              <span className="absolute -right-2 top-8 rotate-6 rounded-2xl border border-line bg-surface px-3 py-2 text-sm font-medium text-fg shadow-xl sm:-right-5">
-                🥈 Silver Medalist
-              </span>
-              <span className="absolute -left-2 top-1/2 -rotate-6 rounded-2xl border border-line bg-surface px-3 py-2 font-mono text-xs text-fg shadow-xl sm:-left-5">
-                M.Tech <span className="text-accent">in progress…</span>
-              </span>
             </TiltCard>
           </Reveal>
 

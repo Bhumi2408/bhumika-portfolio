@@ -2,14 +2,19 @@ import Reveal from "@/components/Reveal";
 import TiltCard from "@/components/TiltCard";
 import ContactForm from "@/components/ContactForm";
 import LocalTime from "@/components/LocalTime";
-import { Container, PageHeader, Serif } from "@/components/ui";
+import JsonLd from "@/components/JsonLd";
+import { Container, PageHeader, SectionHead, Serif } from "@/components/ui";
 import { Mail, Phone, LinkedIn, GitHub, ArrowUpRight, Download, Clock } from "@/components/Icons";
-import { profile } from "@/data/portfolio";
+import { profile, faqs } from "@/data/portfolio";
+import { pageMeta, faqSchema, breadcrumbSchema } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMeta({
   title: "Contact",
-  description: "Get in touch with Bhumika Garg — Full Stack Developer in Delhi. Email, phone, LinkedIn and GitHub.",
-};
+  description:
+    "Hire Bhumika Garg — Full Stack Developer (MERN · Next.js) in Delhi, India. Send a message for full-time roles, freelance projects or e-commerce websites.",
+  path: "/contact",
+  keywords: ["Hire Full Stack Developer", "Hire MERN Developer", "Hire Next.js Developer Delhi", "Contact Bhumika Garg"],
+});
 
 const channels = [
   { icon: <Mail />, label: "Email", value: profile.email, href: `mailto:${profile.email}` },
@@ -21,6 +26,7 @@ const channels = [
 export default function Contact() {
   return (
     <>
+      <JsonLd data={[faqSchema(faqs), breadcrumbSchema([{ name: "Contact", path: "/contact" }])]} />
       <PageHeader path="/contact" index="05" title={["Let's ", <Serif key="s">talk.</Serif>]} bg="HELLO">
         Hiring for a full-stack role, need an e-commerce store, or just want to say hi? Drop a message — I&apos;d love to hear from you.
       </PageHeader>
@@ -31,8 +37,8 @@ export default function Contact() {
             <TiltCard className="p-6 sm:p-10">
               <div className="relative">
                 <p className="font-display text-2xl font-semibold tracking-tight text-fg sm:text-3xl">Send a message</p>
-                <p className="mb-8 mt-2 text-muted">Fill this in and your mail app will open with everything ready to send.</p>
-                <ContactForm email={profile.email} />
+                <p className="mb-8 mt-2 text-muted">Fill in the form and your message comes straight to my inbox.</p>
+                <ContactForm source="Contact page" />
               </div>
             </TiltCard>
           </Reveal>
@@ -78,6 +84,30 @@ export default function Contact() {
                 </a>
               </div>
             </Reveal>
+          </div>
+        </Container>
+      </section>
+
+      {/* FAQ — native <details> so it works without JS and is fully crawlable */}
+      <section className="pb-28">
+        <Container className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+          <SectionHead index="?" eyebrow="FAQ" title={["Good ", <Serif key="s">questions.</Serif>]}>
+            Quick answers to what people usually ask before reaching out.
+          </SectionHead>
+          <div className="space-y-3">
+            {faqs.map((f, i) => (
+              <Reveal key={f.q} delay={i * 60}>
+                <details className="group rounded-2xl border border-line bg-surface px-5 py-4 transition open:border-accent/50 sm:px-6" open={i === 0}>
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-lg font-semibold text-fg [&::-webkit-details-marker]:hidden">
+                    {f.q}
+                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-line text-muted transition-transform duration-300 group-open:rotate-45 group-open:border-accent group-open:text-accent">
+                      +
+                    </span>
+                  </summary>
+                  <p className="mt-3 leading-relaxed text-muted">{f.a}</p>
+                </details>
+              </Reveal>
+            ))}
           </div>
         </Container>
       </section>

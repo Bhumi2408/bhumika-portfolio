@@ -278,3 +278,27 @@ export const nav = [
   { href: "/skills", label: "Skills" },
   { href: "/contact", label: "Contact" },
 ];
+
+// shown on the Contact page + used for Google FAQ rich results
+export const faqs = [
+  {
+    q: "What technologies does Bhumika Garg work with?",
+    a: "I work across the MERN stack — MongoDB, Express.js, React.js and Node.js — along with Next.js (SSR/SSG), Tailwind CSS, MySQL, REST APIs, authentication and role-based access control.",
+  },
+  {
+    q: "Can you build a complete e-commerce website?",
+    a: "Yes. I've built and launched 4 live e-commerce platforms end to end, with product catalogues, categories, cart, wishlist, checkout, user accounts and admin dashboards.",
+  },
+  {
+    q: "Do you build SEO-friendly websites?",
+    a: "Yes. I use server-side rendering with Next.js, proper meta and Open Graph tags, structured FAQ content and optimised images so pages load fast and rank well in search.",
+  },
+  {
+    q: "Are you open to full-time roles or freelance projects?",
+    a: "Yes — I'm open to full-time Full Stack / MERN / Next.js developer roles as well as freelance projects. Use the contact form, email or phone to reach me.",
+  },
+  {
+    q: "Where are you based?",
+    a: "I'm based in Delhi, India.",
+  },
+];

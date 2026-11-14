@@ -155,9 +155,9 @@ body {
   color: transparent;
   animation: var(--animate-shine);
 }
+/* big decorative background words */
 .text-outline {
-  color: transparent;
-  -webkit-text-stroke: 1px color-mix(in oklab, var(--fg) 16%, transparent);
+  color: color-mix(in oklab, var(--fg) 5%, transparent);
 }
 
 /* card with cursor spotlight (--x/--y set from JS) */

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import LocalTime from "./LocalTime";
 import { Container } from "./ui";
 import { GitHub, LinkedIn, Mail, ArrowUpRight } from "./Icons";
@@ -9,6 +10,9 @@ export default function Footer() {
     <footer className="relative mt-10 overflow-hidden border-t border-line">
       <Container className="relative grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
+          <Link href="/" aria-label="Bhumika Garg — home" className="mb-8 inline-block rounded-2xl border border-line bg-[#0b0b12] px-5 py-4">
+            <Image src="/logo-full.png" alt="Bhumika — Developer" width={480} height={365} className="h-20 w-auto" />
+          </Link>
           <p className="font-display text-3xl font-semibold tracking-tight text-fg">
             Got an idea? <br />
             <a href={`mailto:${profile.email}`} className="text-gradient break-all">

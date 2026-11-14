@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import ThemeToggle from "./ThemeToggle";
@@ -57,10 +58,15 @@ export default function Navbar() {
     <>
       <header ref={headerRef} className="group/nav fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
         <nav className="mx-auto flex max-w-6xl items-center justify-between gap-2 rounded-full border border-transparent px-2 py-2 transition-all duration-500 group-data-scrolled/nav:border-line group-data-scrolled/nav:bg-bg/75 group-data-scrolled/nav:shadow-[0_10px_40px_-20px_rgba(0,0,0,0.35)] group-data-scrolled/nav:backdrop-blur-xl">
-          <Link href="/" className="flex shrink-0 items-center gap-2.5 pl-1.5" aria-label="Home">
-            <span className="ring-gradient grid h-9 w-9 place-items-center rounded-xl font-display text-lg font-bold text-white shadow-lg shadow-accent/30">
-              B
-            </span>
+          <Link href="/" className="group flex shrink-0 items-center gap-2 pl-1" aria-label="Bhumika Garg — home">
+            <Image
+              src="/logo-mark.png"
+              alt="Bhumika Garg logo"
+              width={40}
+              height={40}
+              priority
+              className="h-10 w-10 drop-shadow-[0_4px_14px_rgba(124,58,237,0.45)] transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110"
+            />
             <span className="hidden font-mono text-sm text-fg sm:block">
               bhumika<span className="text-accent">.dev</span>
               <span className="ml-0.5 inline-block h-4 w-[7px] translate-y-0.5 animate-blink bg-accent" />
@@ -102,12 +108,13 @@ export default function Navbar() {
               </kbd>
             </button>
             <ThemeToggle />
-            <Link
-              href="/contact"
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event("open-lead"))}
               className="hidden h-10 items-center gap-1.5 rounded-full bg-fg px-4 text-sm font-medium text-bg transition hover:opacity-85 sm:flex"
             >
               Hire me <ArrowUpRight width={16} height={16} />
-            </Link>
+            </button>
             <button
               onClick={() => {
                 setOpenedAt(pathname);

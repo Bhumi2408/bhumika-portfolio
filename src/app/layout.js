@@ -7,28 +7,46 @@ import Cursor from "@/components/Cursor";
 import ScrollProgress from "@/components/ScrollProgress";
 import Loader from "@/components/Loader";
 import { themeScript } from "@/lib/theme";
+import { siteUrl } from "@/lib/site";
+import LeadPopup from "@/components/LeadPopup";
+import JsonLd from "@/components/JsonLd";
+import { pageMeta, personSchema, websiteSchema, SITE_NAME } from "@/lib/seo";
+import { profile } from "@/data/portfolio";
 
 const geist = Geist({ variable: "--font-geist", subsets: ["latin"] });
 const jetbrains = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"] });
 const bricolage = Bricolage_Grotesque({ variable: "--font-bricolage", subsets: ["latin"] });
 const instrument = Instrument_Serif({ variable: "--font-instrument", subsets: ["latin"], weight: "400", style: ["normal", "italic"] });
 
-export const metadata = {
-  // TODO: change to your final domain after deploying
-  metadataBase: new URL("https://bhumikagargportfolio.netlify.app"),
-  title: {
-    default: "Bhumika Garg — Full Stack Developer (MERN · Next.js)",
-    template: "%s — Bhumika Garg",
-  },
+const base = pageMeta({
   description:
-    "Portfolio of Bhumika Garg, a Full Stack Developer in Delhi building production-grade e-commerce platforms and SEO-optimised websites with React.js, Next.js, Node.js, Express.js and MongoDB.",
-  keywords: ["Bhumika Garg", "Full Stack Developer", "MERN Stack", "Next.js Developer", "React.js Developer", "Delhi"],
-  openGraph: {
-    title: "Bhumika Garg — Full Stack Developer",
-    description: "MERN Stack · React.js · Next.js — 4 live e-commerce platforms and 10+ production websites.",
-    images: ["/photo.jpeg"],
-    type: "website",
+    "Bhumika Garg is a Full Stack Developer in Delhi, India specialising in the MERN stack and Next.js. 1.5+ years building production e-commerce platforms, admin dashboards and SEO-optimised websites with React.js, Node.js, Express.js and MongoDB.",
+  path: "/",
+});
+
+export const metadata = {
+  ...base,
+  // picks up the Vercel URL automatically (see src/lib/site.js)
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Bhumika Garg — Full Stack Developer (MERN · Next.js) in Delhi",
+    template: "%s — Bhumika Garg | Full Stack Developer",
   },
+  applicationName: SITE_NAME,
+  authors: [{ name: profile.name, url: siteUrl }],
+  creator: profile.name,
+  publisher: profile.name,
+  category: "technology",
+  formatDetection: { telephone: false, email: false, address: false },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
+  },
+  // add NEXT_PUBLIC_GOOGLE_VERIFICATION in Vercel after verifying the site in Google Search Console
+  ...(process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION
+    ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION } }
+    : {}),
 };
 
 export const viewport = {
@@ -48,6 +66,7 @@ export default function RootLayout({ children }) {
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <JsonLd data={[personSchema(), websiteSchema()]} />
       </head>
       <body className="grain min-h-screen font-sans">
         <Loader />
@@ -56,6 +75,7 @@ export default function RootLayout({ children }) {
         {children}
         <Footer />
         <CommandPalette />
+        <LeadPopup />
         <Cursor />
       </body>
     </html>

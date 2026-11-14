@@ -6,6 +6,8 @@ import { BrowserFrame } from "@/components/ProjectCard";
 import { Container, Button, CTA } from "@/components/ui";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Globe } from "@/components/Icons";
 import { projects } from "@/data/portfolio";
+import JsonLd from "@/components/JsonLd";
+import { pageMeta, projectSchema, breadcrumbSchema } from "@/lib/seo";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -15,11 +17,14 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const p = projects.find((x) => x.slug === slug);
   if (!p) return {};
-  return {
-    title: p.name,
-    description: `${p.name} — ${p.tagline}. ${p.description}`,
-    openGraph: { images: [p.image] },
-  };
+  return pageMeta({
+    title: `${p.name} — ${p.tagline}`,
+    description: `${p.description} Built by Bhumika Garg with ${p.tech.join(", ")}.`,
+    path: `/projects/${p.slug}`,
+    image: p.image,
+    type: "article",
+    keywords: [p.name, `${p.name} website`, ...p.tech],
+  });
 }
 
 export default async function ProjectPage({ params }) {
@@ -33,6 +38,15 @@ export default async function ProjectPage({ params }) {
 
   return (
     <>
+      <JsonLd
+        data={[
+          projectSchema(p),
+          breadcrumbSchema([
+            { name: "Projects", path: "/projects" },
+            { name: p.name, path: `/projects/${p.slug}` },
+          ]),
+        ]}
+      />
       <section className="relative overflow-hidden pb-12 pt-32 sm:pt-40">
         <div className="line-grid fade-mask pointer-events-none absolute inset-0 opacity-70" />
         <div

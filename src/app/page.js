@@ -12,6 +12,8 @@ import ProjectCard from "@/components/ProjectCard";
 import { Container, SectionHead, Serif, Marquee, Button, CTA } from "@/components/ui";
 import { ArrowRight, ArrowUpRight, Download, Pin, Clock, iconMap } from "@/components/Icons";
 import { profile, stats, marquee, projects, services, orbit } from "@/data/portfolio";
+import JsonLd from "@/components/JsonLd";
+import { profilePageSchema } from "@/lib/seo";
 
 function Hero() {
   return (
@@ -280,6 +282,7 @@ function TerminalSection() {
 export default function Home() {
   return (
     <>
+      <JsonLd data={profilePageSchema()} />
       <Hero />
       <Strip />
       <Snapshot />

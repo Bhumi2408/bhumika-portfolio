@@ -4,11 +4,16 @@ import Orbit from "@/components/Orbit";
 import { Container, PageHeader, SectionHead, Serif, Marquee, CTA } from "@/components/ui";
 import { iconMap } from "@/components/Icons";
 import { skills, orbit, marquee } from "@/data/portfolio";
+import JsonLd from "@/components/JsonLd";
+import { pageMeta, breadcrumbSchema } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMeta({
   title: "Skills",
-  description: "Tech stack of Bhumika Garg — React.js, Next.js, Node.js, Express.js, MongoDB, MySQL, Tailwind CSS, REST APIs, RBAC and technical SEO.",
-};
+  description:
+    "Tech stack of Bhumika Garg — React.js, Next.js, Node.js, Express.js, MongoDB, MySQL, Tailwind CSS, REST APIs, authentication, RBAC, Git and technical SEO.",
+  path: "/skills",
+  keywords: ["MERN stack skills", "React Next.js Node MongoDB developer", "Tailwind CSS developer"],
+});
 
 const pkg = {
   name: '"bhumika-garg"',
@@ -73,6 +78,7 @@ function PackageJson() {
 export default function Skills() {
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: "Skills", path: "/skills" }])} />
       <PageHeader path="/skills" index="04" title={["My ", <Serif key="s">toolbox.</Serif>]} bg="STACK">
         The languages, frameworks and tools I use every day to take products from database schema to deployed, SEO-ready pages.
       </PageHeader>
